@@ -31,11 +31,11 @@ def print_log(mode:str, *args, sep:str=" ", end:str="\n"):
     mode:str: [DEIW] First character of message type
     """
     match mode:
-        case "D": typestr:str = "36mDEBUG"
-        case "E": typestr:str = "31mERROR"
-        case "I": typestr:str = "32mINFO"
-        case "W": typestr:str = "33mWARN"
-        case _: typestr:str = "30m    "
+        case "D": typestr = "36mDEBUG"
+        case "E": typestr = "31mERROR"
+        case "I": typestr = "32mINFO"
+        case "W": typestr = "33mWARN"
+        case _: typestr = "30m    "
     
     print(f"[\x1b[{typestr}\x1b[39m]", *args,
           sep=sep, end=end, file=sys.stderr)

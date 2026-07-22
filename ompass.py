@@ -68,3 +68,12 @@ def input_pwd(prompt:str="Password (echo disabled):"):
     
     print()  # Needs the trailing newline
     return out
+
+
+## VARIABLES
+MYVER:str = "0.0.1"
+MYNAME:str = "ompass"
+config:dict = {
+    "location":None
+    "debug":False
+}

@@ -30,6 +30,8 @@ def print_log(mode:str, *args, sep:str=" ", end:str="\n"):
     
     mode:str: [DEIW] First character of message type
     """
+    if (mode == "D" and not config["debug"]): return
+    
     match mode:
         case "D": typestr = "36mDEBUG"
         case "E": typestr = "31mERROR"

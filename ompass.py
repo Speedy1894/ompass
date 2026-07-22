@@ -22,7 +22,7 @@ import termios
 import time
 
 
-def print_log(mode:str, *args, sep:str=" ", end:str"\n"):
+def print_log(mode:str, *args, sep:str=" ", end:str="\n"):
     r"""Print a message to stderr with a preceding type specifier.
     
     All arguments other than `mode` mirror those of the `print()`

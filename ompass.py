@@ -52,3 +52,19 @@ def safe_input(prompt:str=""):
     except (KeyboardInterrupt, EOFError):
         print(file=sys.stderr)  # Needed to proceed to next line
         sys.exit(130)
+
+
+def input_pwd(prompt:str="Password (echo disabled):"):
+    r"""Read from stdin with the ECHO property disabled."""
+    oldattr = termios.tcgetattr(sys.stdin)
+    newattr = oldattr.copy()
+    newattr[3] &= ~termios.ECHO  # lflags
+    
+    try:
+        termios.tcsetattr(sys.stdin, termios.TCSADRAIN, newattr)
+        out = safe_input(prompt)
+    finally:
+        termios.tcsetattr(sys.stdin, termios.TCSADRAIN, oldattr)
+    
+    print()  # Needs the trailing newline
+    return out

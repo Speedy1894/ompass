@@ -76,6 +76,6 @@ def input_pwd(prompt:str="Password (echo disabled):"):
 MYVER:str = "0.0.1"
 MYNAME:str = "ompass"
 config:dict = {
-    "location":None
+    "location":None,
     "debug":False
 }

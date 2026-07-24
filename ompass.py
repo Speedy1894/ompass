@@ -73,6 +73,23 @@ def input_pwd(prompt:str="Password (echo disabled):"):
     return out
 
 
+def print_usage(short:bool=False, file=sys.stdout):
+    r"""Print a usage message to `file` including all arguments.
+    
+    If `short` is True, then only the first line ('usage: *') will be
+    printed.
+    """
+    print(f"usage: {MYNAME} [options]", file=file)
+    if (short): return
+    
+    print("options:",
+          "  -h --help           print this help message and exit",
+          "  -l --location FILE  specify the location of your password file",
+          "  -v --version        print version information and exit",
+          "  --debug             print debug messages",
+          sep="\n", file=file)
+
+
 def parse_cmdline_args(args):
     r"""Parse the arguments with which the program was invoked.
     
@@ -82,17 +99,18 @@ def parse_cmdline_args(args):
     parser = optparse.OptionParser(
         prog=MYNAME,
         usage=optparse.SUPPRESS_USAGE,
-        add_help_option=False,
-        version=f"{MYNAME} v{MYVER}")
+        add_help_option=False)
     
     def err(*args):
         print_log("E", *args)
         sys.exit(2)
     parser.error = err
     
+    parser.add_option("-h","--help", dest="help",
+                      action="store_true", default=False)
     parser.add_option("-l","--location", dest="location",
                       action="store", default=None)
-    parser.add_option("-h","--help", dest="help",
+    parser.add_option("-v","--version", dest="version",
                       action="store_true", default=False)
     parser.add_option("--debug", dest="debug",
                       action="store_true", default=False)
@@ -105,5 +123,13 @@ MYVER:str = "0.0.1"
 MYNAME:str = "ompass"
 config, posargs = parse_cmdline_args(sys.argv[1:])
 
-print(config)
-print(posargs)
+print_log("D", "config =", config)
+print_log("D", "posargs =", posargs)
+
+
+if (config.help is True):
+    print_usage()
+    sys.exit(0)
+if (config.version is True):
+    print(f"{MYNAME} v{MYVER}")
+    sys.exit(0)

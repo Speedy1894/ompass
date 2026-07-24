@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import optparse
 import sys
 import termios
 import time
@@ -72,10 +73,37 @@ def input_pwd(prompt:str="Password (echo disabled):"):
     return out
 
 
+def parse_cmdline_args(args):
+    r"""Parse the arguments with which the program was invoked.
+    
+    The return value is a tuple as returned from
+    `optparse.OptionParser.parse_args()`.
+    """
+    parser = optparse.OptionParser(
+        prog=MYNAME,
+        usage=optparse.SUPPRESS_USAGE,
+        add_help_option=False,
+        version=f"{MYNAME} v{MYVER}")
+    
+    def err(*args):
+        print_log("E", *args)
+        sys.exit(2)
+    parser.error = err
+    
+    parser.add_option("-l","--location", dest="location",
+                      action="store", default=None)
+    parser.add_option("-h","--help", dest="help",
+                      action="store_true", default=False)
+    parser.add_option("--debug", dest="debug",
+                      action="store_true", default=False)
+    
+    return parser.parse_args(args)
+
+
 ## VARIABLES
 MYVER:str = "0.0.1"
 MYNAME:str = "ompass"
-config:dict = {
-    "location":None,
-    "debug":False
-}
+config, posargs = parse_cmdline_args(sys.argv[1:])
+
+print(config)
+print(posargs)

@@ -18,6 +18,8 @@
 #
 
 import optparse
+import os
+import os.path as osp
 import sys
 import termios
 import time
@@ -133,3 +135,20 @@ if (config.help is True):
 if (config.version is True):
     print(f"{MYNAME} v{MYVER}")
     sys.exit(0)
+
+# Check validity of location
+if (config.location is None):
+    if ("XDG_CONFIG_HOME" in os.environ \
+        and osp.isfile(osp.expandvars("${XDG_CONFIG_HOME}/ompass"))):
+        config.location = osp.expandvars("${XDG_CONFIG_HOME}/ompass")
+    elif (osp.isfile(osp.expanduser("~/.config/ompass"))):
+        config.location = osp.expanduser
+    else:
+        print_log("E", "pwdfile could not be automatically detected")
+        raise FileNotFoundError()  #TODO: ask if this file should be created
+else:
+    if (not osp.isfile(config.location)):
+        print_log("E", f'"{config.location}" does not exist')
+        raise FileNotFoundError()  #TODO: same as above
+
+print_log("D", "config.location =", config.location)

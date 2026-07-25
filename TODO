@@ -1,0 +1,11 @@
+
+#Flow:
+#- create dictionary of config
+#- parse cmdline args into config dict
+#- ask user to clarify for anything not specified in dict
+
+#TODO:
+#- make standard passwd file location
+#- create passwd file structure
+# -- needs salting, name, alias(es), location, user, password, email
+# -- entries will be stored within one file, but can be compressed, the cyphertext will be stored in base64, and each entry will be encrypted separately.
